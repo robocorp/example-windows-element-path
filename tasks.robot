@@ -1,17 +1,45 @@
 *** Settings ***
-Library     ExtendedWindows
+Documentation       Using element path locator for application elements.
+
+Library             RPA.Windows
+
+
+*** Variables ***
+${path_to_mainview}         path:2|3|2
+${path_to_result}           ${path_to_mainview}|2|1
+# Different element sections
+${path_to_controls}         ${path_to_mainview}|5
+${path_to_operators}        ${path_to_mainview}|7
+${path_to_numberpad}        ${path_to_mainview}|8
+# Clear button in Controls section
+${path_to_clear_button}     ${path_to_controls}|3
+# Buttons in Operators section
+${path_to_minus_button}     ${path_to_operators}|3
+${path_to_plus_button}      ${path_to_operators}|4
+${path_to_equals_button}    ${path_to_operators}|5
 
 
 *** Tasks ***
 Minimal task
-    ${win}=    Control Window    name:Calculator
-    # Print Tree    name:Calculator
-    # First number is the first child element and so on
-    Click Element Path    2 | 3 | 2 | 8 | 2    # number 1
-    # Spaces are not necessary between indexes
-    Click Element Path    2|3|2|8|3    # number 2
-    Click Element Path    2|3|2|8|5    # number 4
-    # Sleep for demo purposes
-    Sleep    2s
-    Click Element Path    1|4    # close button
+    Control Window    name:Calculator
+    Print Tree    log_as_warnings=True
+    Click    ${path_to_clear_button}
+    ${operations}=    Set Variable    ${EMPTY}
+    FOR    ${_}    IN RANGE    6
+        ${number}=    Evaluate    random.randint(1,9)
+        IF    $number%2 == 0
+            Click    ${path_to_plus_button}
+            ${operations}=    Set Variable    ${operations}+
+        ELSE
+            Click    ${path_to_minus_button}
+            ${operations}=    Set Variable    ${operations}-
+        END
+        ${operations}=    Set Variable    ${operations}${number}
+        Click    ${path_to_numberpad} > path:${number+1}
+        Sleep    0.5s
+    END
+    Click    ${path_to_equals_button}
+    ${result}=    Get Element    ${path_to_result}
+    ${operations}=    Set Variable    ${operations}=${result.name}
+    Log To Console    \nCalculated: ${operations}
     Log    Done.
