@@ -35,14 +35,14 @@ As a reminder the default search depth in the RPA.Windows is **8** (which applie
 see [library documentation](https://robocorp.com/docs/libraries/rpa-framework/rpa-windowss) for more information.
 - The second number indicates the **index of the element on its current level** (number 1 indicating the first element) on the element tree. 
 **This number is used as an value when creating a path for the element**. The root element index (in this case WindowControl of the Calculator application) 
-**is not** part of the element path index. Indexing starts from the depth level 2.
+**is not** part of the element path index. Indexing starts from the depth level 1. (as 0 is the singular root level)
 
 ### How value for `path:` locator is calculated ?
 
 In my Calculator Robot all elements of interest are contained within the element which I have assigned to variable `${path_to_mainview}`.
 
-To get element path for the `${path_to_mainview}` I can see from image that it is locator under the second index (under the parent window) "2-2" and then 
-under the third index of that structure "3-3" and finally under the second index of that structure "4-2". This gives the element path value of `2|3|2`. 
+To get element path for the `${path_to_mainview}` I can see from image that it is locator under the second index (under the parent window) "1-2" and then 
+under the third index of that structure "2-3" and finally under the second index of that structure "3-2". This gives the element path value of `2|3|2`. 
 The "calculation path" is indicated by white arrows on the left side of the element tree (shown only on how to get to this "main view").
 
 > pipe character `|` is used as separation character between indexing for different levels of elements
