@@ -57,7 +57,7 @@ Each entry is prefixed with 2 numbers (check the image below):
 
 ⚠️ The root element position (here the `WindowControl` of the **Calculator** application)
 **is not** part of the element path-based locator. Indexing starts from the depth level
-if `1`. (as `0` is the singular root level which is already your default active window
+of `1`. (as `0` is the singular root level which is already your default active window
 if it was previously controlled; you can also set it as an anchor)
 
 ### How the value of the `path:` locator is formed
