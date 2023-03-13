@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation       Using element path locator for application elements.
+Documentation       Using element path strategy when locating application elements.
 
 Library             RPA.Windows
 
@@ -21,28 +21,37 @@ ${locator_to_number_five}       path:2|3|2 > id:num5Button
 
 
 *** Tasks ***
-Minimal task
-    Control Window    name:Calculator
-    Print Tree    log_as_warnings=True
+Automate Calculator
+    [Setup]    Windows Run    Calculator
+
+    # Display the element tree of the Calculator window.
+    Control Window    Calculator
+    ${structure} =    Print Tree    log_as_warnings=${True}    return_structure=${True}
+    Log To Console    Structure: ${structure}
+
+    # Clear display and add/subtract random numbers.
     Click    ${path_to_clear_button}
-    ${operations}=    Set Variable    ${EMPTY}
+    ${operations} =    Set Variable    ${EMPTY}
     FOR    ${_}    IN RANGE    6
-        ${number}=    Evaluate    random.randint(1,9)
-        IF    $number%2 == 0
+        ${number} =    Evaluate    random.randint(1,9)
+        IF    ${number} % 2 == 0
             Click    ${path_to_plus_button}
-            ${operations}=    Set Variable    ${operations}+
+            ${operations} =    Set Variable    ${operations}+
         ELSE
             Click    ${path_to_minus_button}
             ${operations}=    Set Variable    ${operations}-
         END
-        ${operations}=    Set Variable    ${operations}${number}
-        Click    ${path_to_numberpad} > path:${number+1}
-        Sleep    0.5s
+        ${operations} =    Set Variable    ${operations}${number}
+        Click    ${path_to_numberpad} > path:${number + 1}    wait_time=0.5
     END
+
+    # Generate result and extract the total from display.
     Click    ${path_to_equals_button}
-    ${result}=    Get Element    ${path_to_result}
-    ${operations}=    Set Variable    ${operations}=${result.name}
-    Log To Console    \nCalculated: ${operations}
-    # Lets add 5 more to the result
+    ${result} =    Get Element    ${path_to_result}
+    ${operations} =    Set Variable    ${operations}=${result.name}
+    Log To Console    Calculated expression: ${operations}
+
+    # Lets add number "5" to the total by pressing ths key.
     Click    ${locator_to_number_five}
-    Log    Done.
+
+    [Teardown]    Close Current Window
