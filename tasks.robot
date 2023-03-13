@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation       Using element path strategy when locating application elements.
+Documentation       Using the element path strategy when locating application elements.
 
 Library             RPA.Windows
 
@@ -22,7 +22,7 @@ ${locator_to_number_five}       path:2|3|2 > id:num5Button
 
 *** Tasks ***
 Automate Calculator
-    [Setup]    Windows Run    Calculator
+    [Setup]    Windows Run    calc.exe
 
     # Display the element tree of the Calculator window.
     Control Window    Calculator
@@ -49,9 +49,10 @@ Automate Calculator
     Click    ${path_to_equals_button}
     ${result} =    Get Element    ${path_to_result}
     ${operations} =    Set Variable    ${operations}=${result.name}
-    Log To Console    Calculated expression: ${operations}
+    Log    Calculated expression: ${operations}
 
-    # Lets add number "5" to the total by pressing ths key.
+    # Lets add number "5" to the total by pressing this key. (on Windows 11 it replaces
+    #  the result)
     Click    ${locator_to_number_five}
 
     [Teardown]    Close Current Window
