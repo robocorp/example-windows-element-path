@@ -39,7 +39,7 @@ Automate Calculator
             ${operations} =    Set Variable    ${operations}+
         ELSE
             Click    ${path_to_minus_button}
-            ${operations}=    Set Variable    ${operations}-
+            ${operations} =    Set Variable    ${operations}-
         END
         ${operations} =    Set Variable    ${operations}${number}
         Click    ${path_to_numberpad} > path:${number + 1}    wait_time=0.5

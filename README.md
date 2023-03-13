@@ -1,11 +1,11 @@
 # Using the "path:" locator strategy with the Windows library
 
-This Robot demonstrates how to use `path:` locator strategy with `RPA.Windows`.
+This Robot demonstrates how to use a `path:` locator strategy with `RPA.Windows`.
 
-To use the `path:` locator strategy the `rpaframework` needs to be installed with a
+To use the `path:` locator strategy the `rpaframework`, it needs to be installed with a
 minimum release of **22.0.0**.
 
-The element path is a last resort method of accessing a Windows application's element
+The element path is the last resort method of accessing a Windows application's element
 structure, when normal accessibility properties are not available or do not contain
 enough information to properly identify elements.
 
@@ -14,20 +14,21 @@ enough information to properly identify elements.
 ### Basic idea
 
 The Basic idea of the element path is that any element in the application's element
-structure can be indexed in a set state of an application. If the application's element
-structure is changing unpredictably, then even the element path itself can't be used to
-identify elements.
+structure can be indexed in a set state given its structure. If the application's
+element structure is changing unpredictably, then even the element path itself can't be
+used to identify elements.
 
 The Windows **Calculator** is used here as a sample application to show how the element
-path works with the `RPA.Windows` library (*Note:* Calculator application provides
-excellent accessibility properties, so in usual scenarios you don't need to rely on
-paths given this).
+path works with the `RPA.Windows` library.
 
-### Inspecting the element tree and understanding the values
+*Note:* The Calculator application provides excellent accessibility properties, so in
+usual scenarios, you don't need to rely on paths given this.
+
+### Inspecting the element tree and understanding its value
 
 The code below displays output with the [Print Tree](https://robocorp.com/docs/libraries/rpa-framework/rpa-windows/keywords#print-tree)
 keyword in the robot file. I am specifically logging elements as warnings so that the
-output is visible both in the terminal and on top of the log file.
+output is visible in both the terminal and on top of the log file.
 
 ```robotframework
 Print Tree    log_as_warnings=${True}
@@ -55,9 +56,9 @@ Each entry is prefixed with 2 numbers (check the image below):
   **These positions are used as values when creating a path for the element locator**.
 
 ⚠️ The root element position (here the `WindowControl` of the **Calculator** application)
-**is not** part of the element path index. Indexing starts from the depth level `1`.
-(as `0` is the singular root level which is already your default active window if was
-previously controlled; you can also set it as an anchor)
+**is not** part of the element path-based locator. Indexing starts from the depth level
+if `1`. (as `0` is the singular root level which is already your default active window
+if it was previously controlled; you can also set it as an anchor)
 
 ### How the value of the `path:` locator is formed
 
@@ -79,7 +80,7 @@ the rest of my locators. (to avoid redundancy)
 
 ```robotframework
 ${path_to_mainview}         path:2|3|2
-${path_to_result}               ${path_to_mainview}|2|1    # path:2|3|2|2|1
+${path_to_result}           ${path_to_mainview}|2|1  # path:2|3|2|2|1
 ```
 
 The `path:` strategy can be combined with other locator strategies as well.
@@ -88,8 +89,8 @@ The `path:` strategy can be combined with other locator strategies as well.
 ${locator_to_number_five}       path:2|3|2 > id:num5Button
 ```
 
-All the other locator variables based on the `path:` strategy are computed in the same
-way I described above.
+The rest of the locator variables, based on the `path:` strategy, are computed in the
+same way I described above.
 
 *Tree printed log*:
 ![Tree printed log](images/tree-log.png)
@@ -144,7 +145,7 @@ Automate Calculator
             ${operations} =    Set Variable    ${operations}+
         ELSE
             Click    ${path_to_minus_button}
-            ${operations}=    Set Variable    ${operations}-
+            ${operations} =    Set Variable    ${operations}-
         END
         ${operations} =    Set Variable    ${operations}${number}
         Click    ${path_to_numberpad} > path:${number + 1}    wait_time=0.5
