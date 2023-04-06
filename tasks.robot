@@ -1,7 +1,8 @@
 *** Settings ***
-Documentation       Using the element path strategy when locating application elements.
+Documentation    Using the element path strategy when locating application elements.
 
-Library             RPA.Windows
+Library    RPA.Windows
+Library    Collections
 
 
 *** Variables ***
@@ -26,8 +27,9 @@ Automate Calculator
 
     # Display the element tree of the Calculator window.
     Control Window    Calculator
-    ${structure} =    Print Tree    log_as_warnings=${True}    return_structure=${True}
-    Log To Console    Structure: ${structure}
+    &{structure} =    Print Tree    log_as_warnings=${True}    return_structure=${True}
+    Log    Structure:
+    Log Dictionary    ${structure}
 
     # Clear display and add/subtract random numbers.
     Click    ${path_to_clear_button}
@@ -51,8 +53,8 @@ Automate Calculator
     ${operations} =    Set Variable    ${operations}=${result.name}
     Log    Calculated expression: ${operations}
 
-    # Lets add number "5" to the total by pressing this key. (on Windows 11 it replaces
-    #  the result)
+    # Lets add number "5" to the total by pressing this key. (on Windows 11, this
+    #  replaces the result with the pressed value)
     Click    ${locator_to_number_five}
 
     [Teardown]    Close Current Window
