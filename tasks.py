@@ -3,8 +3,7 @@
 import io
 import random
 
-from robocorp.tasks import task, setup
-from robocorp.tasks._protocols import ITask
+from robocorp.tasks import task, setup, ITask
 from robocorp import log
 from robocorp import windows
 
@@ -24,7 +23,6 @@ PATH_TO_PLUS_BUTTON = f"{PATH_TO_OPERATORS}|4" # path:2|3|2|7|4
 PATH_TO_EQUALS_BUTTON = f"{PATH_TO_OPERATORS}|5" # path:2|3|2|7|5
 PATH_TO_TO_NUMBER_FIVE = "path:2|3|2 > id:num5Button"
 
-RANDOM_INT_RANGE = range(1, 9)
 AMOUNT_OF_NUMBERS = 6
 
 def log_element_tree(window_element: windows.WindowElement) -> None:
@@ -36,7 +34,7 @@ def clear_screen(windows_element: windows.WindowElement) -> None:
     windows_element.click(PATH_TO_CLEAR_BUTTON)
 
 def calculate_random_numbers(windows_element: windows.WindowElement) -> None:
-    numbers = random.sample(RANDOM_INT_RANGE, AMOUNT_OF_NUMBERS)
+    numbers = random.sample(range(1, 9), AMOUNT_OF_NUMBERS)
     for number in numbers:
         if number % 2 == 0:
             windows_element.click(PATH_TO_PLUS_BUTTON)
